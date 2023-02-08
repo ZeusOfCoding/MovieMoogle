@@ -1,1 +1,37 @@
-<p class="text-light">recherche works!</p>
+<div class="container">
+  <h1 class="text-light">Search <span class="text-sm text-warning">({{finder.searchResultTotalResults}})</span></h1>
+
+  <div class="row">
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Movie name" [value]="searchKeyWords" aria-label="Recipient's username" aria-describedby="basic-addon2">
+      <div class="input-group-append">
+        <button class="btn btn-primary" type="button" (click)="onSearch()"><i class="bi bi-search"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="finder.searchResult.length > 0">
+    <button [disabled]="finder.searchResultPage <= 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
+    <button [disabled]="finder.searchResultPage >= finder.searchResultTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 offset-sm-8 offset-md-12" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
+  </div>
+
+  <div class="row" *ngIf="finder.searchResult.length > 0">
+    <p class="text-warning text-center">Number of results: {{ finder.searchResultTotalResults }} - Page {{ finder.searchResultPage }} on {{ finder.searchResultTotalPages }}</p>
+    <app-fiml-display *ngFor="let film of finder.searchResult" [film]="film" class="col-sm-12 col-md-4 col-lg-3 my-3"></app-fiml-display>
+  </div>
+
+  <div class="row no-item" *ngIf="finder.searchResult.length <= 0">
+    <h1>No tv-show found!</h1>
+
+    <img src="assets/eyes2.gif"/>
+
+  </div>
+
+  <div class="row" *ngIf="finder.searchResult.length > 0">
+    <button [disabled]="finder.searchResultPage <= 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
+    <button [disabled]="finder.searchResultPage >= finder.searchResultTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 offset-sm-8 offset-md-12" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
+  </div>
+
+</div>
+
+

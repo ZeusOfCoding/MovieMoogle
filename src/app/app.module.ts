@@ -4,12 +4,14 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EnteteComponent } from './entete/entete.component';
-import { PiedsComponent } from './pieds/pieds.component';
+import { EnteteComponent } from './template/entete/entete.component';
+import { PiedsComponent } from './template/pieds/pieds.component';
 import { RechercheComponent } from './recherche/recherche.component';
 import { FavorisComponent } from './favoris/favoris.component';
 import { DetailsComponent } from './details/details.component';
 import { TopVideosComponent } from './top-videos/top-videos.component';
+import { FimlDisplayComponent } from './fiml-display/fiml-display.component';
+import { TopTvShowComponent } from './top-tv-show/top-tv-show.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { TopVideosComponent } from './top-videos/top-videos.component';
     RechercheComponent,
     FavorisComponent,
     DetailsComponent,
-    TopVideosComponent
+    TopVideosComponent,
+    FimlDisplayComponent,
+    TopTvShowComponent
   ],
   imports: [
     BrowserModule,

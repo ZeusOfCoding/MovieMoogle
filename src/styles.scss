@@ -1,4 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  padding: 0px;
+  margin: 0px;
+}
+
 body {
-    background: rgb(18, 4, 111);
+    //background: rgb(18, 4, 111);
+  background-image: url("/assets/transformers.jpg");
+  font-family: 'Roboto';
+  //font-size: 22px;
 }

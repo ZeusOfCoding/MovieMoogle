@@ -1,20 +1,28 @@
 <div class="container">
-    <h1 class="text-light">Top videos</h1>
+  <h1 class="text-light">Top videos <span class="text-sm text-warning">({{finder.topVideoTotalResults}})</span></h1>
 
-    <div class="row">
+  <div class="row" *ngIf="finder.topVideos.length > 0">
+    <button [disabled]="finder.topVideoPage <= 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
+    <button [disabled]="finder.topVideoPage >= finder.topVideoTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 offset-sm-8 offset-md-12" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
+  </div>
 
-        <div *ngFor="let film of finder.topVideos" class="col-sm-12 col-md-4 col-lg-3 my-3">
-            <div class="card">
-              <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{film.poster_path}}" alt="Film 1">
-              <div class="card-body">
-                <h5 class="card-title">{{film.original_title}}</h5>
-                <p class="card-text">Description du film 1</p>
-                <a href="#" class="btn btn-primary">See details</a>
-              </div>
-            </div>
-          </div> 
+  <div class="row" *ngIf="finder.topVideos.length > 0">
+    <p class="text-warning text-center">Number of results: {{ finder.topVideoTotalResults }} - Page {{ finder.topVideoPage }} on {{ finder.topVideoTotalPages }}</p>
+    <app-fiml-display *ngFor="let film of finder.topVideos" [film]="film" class="col-sm-12 col-md-4 col-lg-3 my-3"></app-fiml-display>
+  </div>
 
-    </div>
+  <div class="row no-item" *ngIf="finder.topVideos.length <= 0">
+    <h1>No video found!</h1>
+
+    <img src="assets/eyes2.gif"/>
+
+  </div>
+
+  <div class="row" *ngIf="finder.topVideos.length > 0">
+    <button [disabled]="finder.topVideoPage <= 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
+    <button [disabled]="finder.topVideoPage >= finder.topVideoTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 offset-sm-8 offset-md-12" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
+  </div>
+
 </div>
 
 
