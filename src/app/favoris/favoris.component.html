@@ -1,8 +1,13 @@
 <div class="container">
-  <h1 class="text-light">Fav Movies <span class="text-sm text-warning">({{finder.searchResultTotalResults}})</span></h1>
+  <h1 class="text-light">Fav Movies <span class="text-sm text-warning">({{finder.getFavMoviesIds().length}})</span></h1>
 
 
-
+  <div class="row" *ngIf="finder.getFavMoviesIds().length > 0">
+    <app-fiml-display *ngFor="let id of finder.getFavMoviesIds()" [film]="getFilmById(id)"
+                      [titleLengthLimit]="25"
+                      [descriptionLengthLimit]="100"
+                      class="col-sm-12 col-md-4 col-lg-3 my-3"></app-fiml-display>
+  </div>
 
 
   <h1 class="text-light">Fav TV Shows <span class="text-sm text-warning">({{finder.searchResultTotalResults}})</span></h1>

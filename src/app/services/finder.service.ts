@@ -44,8 +44,6 @@ export class FinderService {
     }
 
     let result: Film[] = resp.results;
-    console.log(`recherche depuis l'addresse : ${url}`)
-    console.log(result[0]);
     return result.filter(value => value.backdrop_path);
   }
 
@@ -81,15 +79,12 @@ export class FinderService {
     if(type === SearchType.TOP_VIDEO){
       if(this.topVideoPage < this.topVideoTotalPages) this.topVideoPage++;
       await this.loadPage(this.top_movies_url, type, this.topVideoPage);
-      console.log(this.top_movies_url);
     }
     if(type === SearchType.TOP_TV_SHOW){
       if(this.topTvShowPage < this.topTvShowTotalPages) this.topTvShowPage++;
       await this.loadPage(this.top_tv_show_url, type, this.topTvShowPage);
     }
     if(type === SearchType.SEARCH){
-      console.log(search_key_words);
-      console.log(this.search_key_words);
       if(this.searchResultPage < this.searchResultTotalPages) this.searchResultPage++;
       if(search_key_words && search_key_words !== this.search_key_words) this.searchResultPage = 1;
       if(search_key_words) this.search_key_words = search_key_words;
@@ -157,4 +152,7 @@ export class FinderService {
     }
   }
 
+  getMovie(id: number) {
+    return this.http.get<Film>('https://api.themoviedb.org/3/movie/' + id + '?api_key=' + this.api_key + '&language=en-US').pipe(take(1));
+  }
 }

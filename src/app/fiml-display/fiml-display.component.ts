@@ -20,16 +20,13 @@ export class FimlDisplayComponent implements OnInit{
   }
 
   gotoDescripton(film: Film) {
-
   }
 
   removeFromFavMoviesList(film: Film) {
-    console.log(`Removing ${film.id} : ${film.original_title} from frav movies list.`);
     this.finder.removeFromFavMovies(film.id);
   }
 
   addToFavMoviesList(film: Film) {
-    console.log(`Adding ${film.id} : ${film.original_title} from frav movies list.`);
     this.finder.addToFavMovies(film.id);
   }
 

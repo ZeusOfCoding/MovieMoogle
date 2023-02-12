@@ -18,8 +18,6 @@ export class TopTvShowComponent  implements OnInit {
     this.titleLengthLimit = this.finder.topTvShow.map(f => f.original_name.length).sort((a,b) => a-b)[0];
     this.titleLengthLimit = this.titleLengthLimit < 25 ? 25 : this.titleLengthLimit;
     this.descriptionLengthLimit = this.finder.topTvShow.map(f => f.overview.length).sort((a,b) => a-b)[0];
-    // console.log(this.finder.topVideos.map(f => f.overview.length).sort((a,b) => a-b));
-    console.log(this.descriptionLengthLimit);
   }
 
   onNextPage(){
