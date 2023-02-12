@@ -14,6 +14,8 @@ import { FimlDisplayComponent } from './fiml-display/fiml-display.component';
 import { TopTvShowComponent } from './top-tv-show/top-tv-show.component';
 import {FormsModule} from "@angular/forms";
 import { TvShowDisplayComponent } from './tv-show-display/tv-show-display.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {ToastrModule} from "ngx-toastr";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,14 @@ import { TvShowDisplayComponent } from './tv-show-display/tv-show-display.compon
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      easing: 'ease-in',
+      easeTime: 500,
+      timeOut: 2500,
+      preventDuplicates: true
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

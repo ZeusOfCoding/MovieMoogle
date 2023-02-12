@@ -4,6 +4,7 @@ import {Film} from '../model/film';
 import {SearchType} from "../model/search_type";
 import {firstValueFrom, Observable, of, take} from "rxjs";
 import {TvShow} from "../model/tvShow";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class FinderService {
   public searchResultPage:number = 1;
   public searchResultTotalPages:number = 1;
   public searchResultTotalResults:number = 0;
-  private favMoviesIds: number[] = [];
+  private favMoviesIds!: number[];
 
   private api_key:string = '0c118450bc36e5a913145052ab05f1ae';
   private _search_key_words: string = '';
@@ -132,7 +133,7 @@ export class FinderService {
 
 
   public getFavMoviesIds(): number[]{
-    if(this.favMoviesIds.length === 0){
+    if(!this.favMoviesIds){
       this.favMoviesIds = JSON.parse(localStorage.getItem('FAV_MOVIES') || '[]');
     }
     return this.favMoviesIds;
