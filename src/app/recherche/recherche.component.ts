@@ -9,22 +9,25 @@ import {SearchType} from "../model/search_type";
 })
 export class RechercheComponent implements OnInit {
 
-  public searchKeyWords = 'Tarzan';
+  public searchKeyWords!: string;
+  public titleLengthLimit!: number;
+  public descriptionLengthLimit!: number;
   constructor(public finder: FinderService){}
 
   async ngOnInit() {
-    await this.finder.loadTop(SearchType.SEARCH);
+    this.searchKeyWords = this.finder.search_key_words;
+    await this.finder.loadCurrentPage(SearchType.SEARCH);
   }
 
   onNextPage(){
-    this.finder.loadNextPage(SearchType.SEARCH);
+    this.finder.loadNextPage(SearchType.SEARCH, this.searchKeyWords);
   }
   onPreviousPage(){
-    this.finder.loadPreviousPage(SearchType.SEARCH);
+    this.finder.loadPreviousPage(SearchType.SEARCH, this.searchKeyWords);
   }
 
   onSearch(){
-    console.log(this.searchKeyWords);
+    this.onNextPage();
   }
 
 }

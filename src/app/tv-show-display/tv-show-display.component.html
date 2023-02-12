@@ -1,0 +1,10 @@
+<div>
+  <div class="card">
+    <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{tvShow.backdrop_path}}" [alt]="tvShow.original_name">
+    <div class="card-body">
+      <h5 class="card-title">{{ (tvShow.original_name.length>titleLengthLimit)? (tvShow.original_name | slice:0:titleLengthLimit)+'...':(tvShow.original_name) }}</h5>
+<!--      <p class="card-text">{{ (tvShow.overview.length>descriptionLengthLimit)? (tvShow.overview | slice:0:descriptionLengthLimit)+'...':(tvShow.overview) }}</p>-->
+      <a href="#" class="btn btn-primary">See details</a>
+    </div>
+  </div>
+</div>

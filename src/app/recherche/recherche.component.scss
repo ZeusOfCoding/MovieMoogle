@@ -1,0 +1,17 @@
+.no-item {
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  //border: 2px solid red;
+
+  img {
+    width: 20%;
+  }
+
+  h1{
+    font-size: 4rem;
+    color: white;
+    text-align: center;
+  }
+}

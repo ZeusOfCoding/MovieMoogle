@@ -12,6 +12,8 @@ import { DetailsComponent } from './details/details.component';
 import { TopVideosComponent } from './top-videos/top-videos.component';
 import { FimlDisplayComponent } from './fiml-display/fiml-display.component';
 import { TopTvShowComponent } from './top-tv-show/top-tv-show.component';
+import {FormsModule} from "@angular/forms";
+import { TvShowDisplayComponent } from './tv-show-display/tv-show-display.component';
 
 @NgModule({
   declarations: [
@@ -23,12 +25,14 @@ import { TopTvShowComponent } from './top-tv-show/top-tv-show.component';
     DetailsComponent,
     TopVideosComponent,
     FimlDisplayComponent,
-    TopTvShowComponent
+    TopTvShowComponent,
+    TvShowDisplayComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

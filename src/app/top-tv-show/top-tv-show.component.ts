@@ -9,10 +9,17 @@ import {SearchType} from "../model/search_type";
 })
 export class TopTvShowComponent  implements OnInit {
 
+  public titleLengthLimit!: number;
+  public descriptionLengthLimit!: number;
   constructor(public finder: FinderService){}
 
   async ngOnInit() {
-    await this.finder.loadTop(SearchType.TOP_TV_SHOW);
+    await this.finder.loadCurrentPage(SearchType.TOP_TV_SHOW);
+    this.titleLengthLimit = this.finder.topTvShow.map(f => f.original_name.length).sort((a,b) => a-b)[0];
+    this.titleLengthLimit = this.titleLengthLimit < 25 ? 25 : this.titleLengthLimit;
+    this.descriptionLengthLimit = this.finder.topTvShow.map(f => f.overview.length).sort((a,b) => a-b)[0];
+    // console.log(this.finder.topVideos.map(f => f.overview.length).sort((a,b) => a-b));
+    console.log(this.descriptionLengthLimit);
   }
 
   onNextPage(){

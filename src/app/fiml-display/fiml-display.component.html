@@ -1,10 +1,14 @@
 <div>
-  <div class="card">
-    <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{film.poster_path}}" [alt]="film.title">
+ <div class="card" style="background-color: #136b26;">
+    <img class="card-img-top" src="https://image.tmdb.org/t/p/w500{{film.backdrop_path}}" [alt]="film.title">
     <div class="card-body">
-      <h5 class="card-title">{{film.original_title}}</h5>
-      <p class="card-text">Description du film 1</p>
-      <a href="#" class="btn btn-primary">See details</a>
+      <h5 class="card-title text-light">{{ (film.original_title.length>titleLengthLimit)? (film.original_title | slice:0:titleLengthLimit)+'...':(film.original_title) }}</h5>
+<!--      <p class="card-text">{{ (film.overview.length>descriptionLengthLimit)? (film.overview | slice:0:descriptionLengthLimit)+'...':(film.overview) }}</p>-->
+      <div class="row">
+        <button type="button" class="btn btn-outline-info btn-xs col-sm-4" (click)="gotoDescripton(film)">Details</button>
+        <i *ngIf="!isInFavMoviesList(film)" class="bi bi-heart ms-auto col-sm-3 btn btn-outline-warning" (click)="addToFavMoviesList(film)"></i>
+        <i *ngIf="isInFavMoviesList(film)" class="bi bi-heart-fill ms-auto col-sm-3 btn btn-outline-warning" (click)="removeFromFavMoviesList(film)"></i>
+      </div>
     </div>
   </div>
 </div>

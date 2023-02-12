@@ -2,8 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Film} from '../model/film';
 import {SearchType} from "../model/search_type";
-import {firstValueFrom} from "rxjs";
-import {logMessages} from "@angular-devkit/build-angular/src/builders/browser-esbuild/esbuild";
+import {firstValueFrom, Observable, of, take} from "rxjs";
+import {TvShow} from "../model/tvShow";
 
 @Injectable({
   providedIn: 'root'
@@ -11,24 +11,26 @@ import {logMessages} from "@angular-devkit/build-angular/src/builders/browser-es
 export class FinderService {
 
   public topVideos: Film[] = [];
-  public topVideoPage = 1;
-  public topVideoTotalPages = 1;
-  public topVideoTotalResults = 0;
-  public topTvShow: Film[] = [];
-  public topTvShowPage = 1;
-  public topTvShowTotalPages = 1;
-  public topTvShowTotalResults = 0;
+  public topVideoPage:number = 1;
+  public topVideoTotalPages:number = 1;
+  public topVideoTotalResults:number = 0;
+  public topTvShow: TvShow[] = [];
+  public topTvShowPage:number = 1;
+  public topTvShowTotalPages:number = 1;
+  public topTvShowTotalResults:number = 0;
   public searchResult: Film[] = [];
-  public searchResultPage = 1;
-  public searchResultTotalPages = 1;
-  public searchResultTotalResults = 0;
+  public searchResultPage:number = 1;
+  public searchResultTotalPages:number = 1;
+  public searchResultTotalResults:number = 0;
+  private favMoviesIds: number[] = [];
 
-  private api_key = '0c118450bc36e5a913145052ab05f1ae';
-  private search_key_words = 'tarzan';
+  private api_key:string = '0c118450bc36e5a913145052ab05f1ae';
+  private _search_key_words: string = '';
+
 
   constructor(private http: HttpClient) { }
 
-  private async findFilms(url: string, search_type : SearchType) : Promise<Film[]>{
+  private async findFilms(url: string, search_type : SearchType) : Promise<any[]>{
     let resp = await firstValueFrom(this.http.get<any>(url));
     if(search_type === SearchType.TOP_VIDEO){
       this.topVideoTotalPages = resp.total_pages;
@@ -41,27 +43,37 @@ export class FinderService {
       this.searchResultTotalResults = resp.total_results;
     }
 
-    return resp.results;
+    let result: Film[] = resp.results;
+    console.log(`recherche depuis l'addresse : ${url}`)
+    console.log(result[0]);
+    return result.filter(value => value.backdrop_path);
   }
 
   private async loadPage(url: string, type: SearchType, page: number){
     if (type === SearchType.TOP_VIDEO){
       this.topVideoPage = page;
+      this.topVideos = [];
       this.topVideos = await this.findFilms(this.top_movies_url, type);
     }else if(type === SearchType.TOP_TV_SHOW){
       this.topTvShowPage = page;
+      this.topTvShow = [];
       this.topTvShow = await this.findFilms(this.top_tv_show_url, type);
     } else if(type === SearchType.SEARCH){
       this.searchResultPage = page;
-      this.searchResult = await this.findFilms(url, type);
+      this.searchResult = [];
+      if(this.search_key_words.trim()) {
+        this.searchResult = await this.findFilms(this.search_url, type);
+      }
     }
   }
 
-  public async loadTop(type: SearchType){
+  public async loadCurrentPage(type: SearchType){
     if (type === SearchType.TOP_VIDEO){
-      this.loadPage(this.top_movies_url, type, 1);
+      await this.loadPage(this.top_movies_url, type, this.topVideoPage);
     }else if(type === SearchType.TOP_TV_SHOW){
-      this.loadPage(this.top_tv_show_url, type, 1);
+      await this.loadPage(this.top_tv_show_url, type, this.topTvShowPage);
+    }else if(type === SearchType.SEARCH){
+      await this.loadPage(this.search_url, type, this.searchResultPage);
     }
   }
 
@@ -76,6 +88,8 @@ export class FinderService {
       await this.loadPage(this.top_tv_show_url, type, this.topTvShowPage);
     }
     if(type === SearchType.SEARCH){
+      console.log(search_key_words);
+      console.log(this.search_key_words);
       if(this.searchResultPage < this.searchResultTotalPages) this.searchResultPage++;
       if(search_key_words && search_key_words !== this.search_key_words) this.searchResultPage = 1;
       if(search_key_words) this.search_key_words = search_key_words;
@@ -107,6 +121,40 @@ export class FinderService {
     return 'https://api.themoviedb.org/3/discover/tv?api_key=' + this.api_key + '&language=en-US&sort_by=popularity.desc&page=' + this.topTvShowPage + '&timezone=America%2FNew_York&include_null_first_air_dates=false&with_watch_monetization_types=flatrate&with_status=0&with_type=0';
   }
   private get search_url(): string{
-    return 'https://api.themoviedb.org/3/search/movie?api_key=' + this.api_key + '&language=en-US&sort_by=popularity.desc&page=' + this.topTvShowPage + '&query=' + this.search_key_words;
+    return 'https://api.themoviedb.org/3/search/movie?api_key=' + this.api_key + '&language=en-US&sort_by=popularity.desc&page=' + this.searchResultPage + '&query=' + this.search_key_words;
   }
+  public get search_key_words(): string{
+    return this._search_key_words;
+  }
+
+  public set search_key_words(new_search_key_words: string) {
+    this._search_key_words = new_search_key_words;
+  }
+
+  public isInFavMovies(id: number): boolean{
+    return this.getFavMoviesIds().includes(id);
+  }
+
+
+  public getFavMoviesIds(): number[]{
+    if(this.favMoviesIds.length === 0){
+      this.favMoviesIds = JSON.parse(localStorage.getItem('FAV_MOVIES') || '[]');
+    }
+    return this.favMoviesIds;
+  }
+
+  public addToFavMovies(id: number){
+    if(!this.isInFavMovies(id)){
+      this.getFavMoviesIds().push(id);
+      localStorage.setItem('FAV_MOVIES', JSON.stringify(this.favMoviesIds));
+     }
+  }
+
+  public removeFromFavMovies(id: number){
+    if(this.isInFavMovies(id)){
+      this.favMoviesIds = this.getFavMoviesIds().filter(item => item !== id);
+      localStorage.setItem('FAV_MOVIES', JSON.stringify(this.getFavMoviesIds()));
+    }
+  }
+
 }

@@ -2,13 +2,16 @@
   <h1 class="text-light">Top videos <span class="text-sm text-warning">({{finder.topVideoTotalResults}})</span></h1>
 
   <div class="row" *ngIf="finder.topVideos.length > 0">
-    <button [disabled]="finder.topVideoPage <= 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
-    <button [disabled]="finder.topVideoPage >= finder.topVideoTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 offset-sm-8 offset-md-12" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
+    <button *ngIf="finder.topVideoPage > 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
+    <button *ngIf="finder.topVideoPage < finder.topVideoTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 ms-auto" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
   </div>
 
   <div class="row" *ngIf="finder.topVideos.length > 0">
     <p class="text-warning text-center">Number of results: {{ finder.topVideoTotalResults }} - Page {{ finder.topVideoPage }} on {{ finder.topVideoTotalPages }}</p>
-    <app-fiml-display *ngFor="let film of finder.topVideos" [film]="film" class="col-sm-12 col-md-4 col-lg-3 my-3"></app-fiml-display>
+    <app-fiml-display *ngFor="let film of finder.topVideos" [film]="film"
+                      [titleLengthLimit]="titleLengthLimit"
+                      [descriptionLengthLimit]="descriptionLengthLimit"
+                      class="col-sm-12 col-md-4 col-lg-3 my-3"></app-fiml-display>
   </div>
 
   <div class="row no-item" *ngIf="finder.topVideos.length <= 0">
@@ -19,8 +22,8 @@
   </div>
 
   <div class="row" *ngIf="finder.topVideos.length > 0">
-    <button [disabled]="finder.topVideoPage <= 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
-    <button [disabled]="finder.topVideoPage >= finder.topVideoTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 offset-sm-8 offset-md-12" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
+    <button *ngIf="finder.topVideoPage > 1" class="btn btn-primary btn-lg col-sm-4 col-md-2" (click)="onPreviousPage()"><i class="bi bi-rewind"></i> Previous</button>
+    <button *ngIf="finder.topVideoPage < finder.topVideoTotalPages" class="btn btn-primary btn-lg col-sm-4 col-md-2 ms-auto" (click)="onNextPage()">Next <i class="bi bi-fast-forward"></i> </button>
   </div>
 
 </div>
