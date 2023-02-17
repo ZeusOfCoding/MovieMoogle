@@ -2,7 +2,7 @@
   <h1 class="text-light">Search <span class="text-sm text-warning">({{finder.searchResultTotalResults}})</span></h1>
 
   <div class="row">
-    <form (ngSubmit)="onSearch()">
+    <form #rechercheForm="ngForm" (ngSubmit)="onSearch(rechercheForm)">
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="Movie name" [(ngModel)]="searchKeyWords" aria-label="Movie name" name="search_key_words" aria-describedby="basic-addon2">
         <div class="input-group-append">

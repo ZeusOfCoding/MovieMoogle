@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FinderService} from "../services/finder.service";
 import {SearchType} from "../model/search_type";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-recherche',
@@ -26,8 +27,9 @@ export class RechercheComponent implements OnInit {
     this.finder.loadPreviousPage(SearchType.SEARCH, this.searchKeyWords);
   }
 
-  onSearch(){
+  onSearch(formulaire: NgForm){
     this.onNextPage();
+    console.log(formulaire.value);
   }
 
 }

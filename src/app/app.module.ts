@@ -12,7 +12,7 @@ import { DetailsComponent } from './details/details.component';
 import { TopVideosComponent } from './top-videos/top-videos.component';
 import { FimlDisplayComponent } from './fiml-display/fiml-display.component';
 import { TopTvShowComponent } from './top-tv-show/top-tv-show.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { TvShowDisplayComponent } from './tv-show-display/tv-show-display.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
@@ -35,6 +35,7 @@ import {ToastrModule} from "ngx-toastr";
     HttpClientModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       easing: 'ease-in',
